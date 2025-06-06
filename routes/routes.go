@@ -8,7 +8,7 @@ import (
 func SetupRoutes(router *gin.Engine) {
 	plantRoutes := router.Group("/api")
 	{
-		plantRoutes.POST("/plant", controllers.CreatePlant)
+		//plantRoutes.POST("/plant", controllers.CreatePlant)
 		plantRoutes.GET("/", controllers.GetPlants)
 		//plantRoutes.GET("/:id", controllers.GetPlantByID)
 		//plantRoutes.PUT("/:id", controllers.UpdatePlant)

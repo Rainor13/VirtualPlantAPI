@@ -8,7 +8,16 @@ import (
 	"net/http"
 )
 
-func CreatePlant(c *gin.Context) {
+type PlantController struct {
+	Service *services.PlantService
+}
+
+// Constructor
+func NewPlantController(service *services.PlantService) *PlantController {
+	return &PlantController{Service: service}
+}
+
+func (pc *PlantController) CreatePlant() {
 	var newPlant models.Plant
 
 	//err contiene el resultado de asignar los valores del post a newPlant si no es
@@ -20,7 +29,8 @@ func CreatePlant(c *gin.Context) {
 
 	log.Println("Se ha ejecutado correctamente")
 
-	createdPlant := services.CreatePlant(newPlant)
+	createdPlant := pc.Service.CreatePlant(newPlant)
+
 	c.JSON(http.StatusCreated, createdPlant)
 }
 
