@@ -1,0 +1,9 @@
+CreatePlant(p models.Plant) models.Plant
+
+curl -X POST http://localhost:8080/api/plant \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Menta",
+    "species": "Mentha spicata"
+}'
+
