@@ -1,5 +1,7 @@
 CreatePlant(p models.Plant) models.Plant
 
+    POST /api/plant
+
 curl -X POST http://localhost:8080/api/plant \
   -H "Content-Type: application/json" \
   -d '{
@@ -7,3 +9,29 @@ curl -X POST http://localhost:8080/api/plant \
     "species": "Mentha spicata"
 }'
 
+curl -X POST http://localhost:8080/api/plant \
+  -H "Content-Type: application/json" \
+  -d '{
+        "name": "Aloe Vera",
+        "species": "Aloe"
+}'
+
+------------------------------------------------------------------------------------------------------------------------
+
+WaterPlant(id string) models.Plant
+
+    POST /api/plant/{id}/water
+
+curl -X POST http://localhost:8080/api/plant/7427650e-5495-4a8c-a90f-9ccb9db7c0fb/water \
+  -H "Content-Type: application/json" \
+  -d '"7427650e-5495-4a8c-a90f-9ccb9db7c0fb"'
+
+------------------------------------------------------------------------------------------------------------------------
+
+CheckPlantStatus(id string) (models.Plant, bool)
+
+    GET /api/plant/{id}
+
+curl -X GET http://localhost:8080/api/plant/7427650e-5495-4a8c-a90f-9ccb9db7c0fb \
+  -H "Content-Type: application/json" \
+  -d '"7427650e-5495-4a8c-a90f-9ccb9db7c0fb"'
