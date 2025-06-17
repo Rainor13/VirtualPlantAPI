@@ -7,11 +7,13 @@ import (
 )
 
 var plants = []models.Plant{}
+var tickCounter int = 0
 
 func CreatePlant(p models.Plant) models.Plant {
 	p.ID = uuid.New().String() // Asignamos un ID único
 	p.PlantingDate = time.Now()
 	p.LastWateredDate = time.Now()
+	p.LastFertilizedAt = time.Time{}
 	p.PlantStage = models.Seed
 	p.Health = 100
 
@@ -88,6 +90,33 @@ func HarvestPlant(id string) bool {
 	return false
 }
 
+func GetPlants() []models.Plant {
+	return plants
+}
+
+func FertilizePlant(id string) bool {
+	plant, found := FindPlant(id)
+	minuteSincePlanted := time.Since(plant.PlantingDate).Minutes()
+	minuteSinceFertilize := time.Since(plant.LastFertilizedAt).Minutes()
+
+	if plant.PlantStage != models.Mature && minuteSincePlanted >= 4 {
+		if plant.LastFertilizedAt.IsZero() || minuteSinceFertilize >= 8 {
+		}
+		if found {
+			if plant.Health > 70 {
+				plant.Health = 100
+			} else {
+				plant.Health += 30
+			}
+			plant.PlantStage.Next()
+
+			return true
+		}
+	}
+
+	return false
+}
+
 func UpdateWaterPlantsStatus() {
 	for i := range plants {
 		minuteSinceWatered := time.Since(plants[i].LastWateredDate).Minutes()
@@ -105,7 +134,7 @@ func UpdateWaterPlantsStatus() {
 func UpdateStagePlantsStatus() {
 	for i := range plants {
 		minuteSincePlanted := time.Since(plants[i].PlantingDate).Minutes()
-		if minuteSincePlanted > 4 && plants[i].Health >= 70 {
+		if minuteSincePlanted >= 4 && plants[i].Health >= 70 {
 			plants[i].PlantStage.Next()
 		}
 	}
@@ -117,7 +146,11 @@ func StartBackgroundWorker() {
 		for range ticker.C {
 			// Aquí llamas a tu función que actualiza la salud de todas las plantas
 			UpdateWaterPlantsStatus()
-			UpdateStagePlantsStatus()
+
+			tickCounter++
+			if tickCounter%4 == 0 { // cada 4 minutos
+				UpdateStagePlantsStatus()
+			}
 		}
 	}()
 }

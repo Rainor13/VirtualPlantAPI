@@ -13,4 +13,6 @@ func SetupRoutes(router *gin.Engine) {
 		plantRoutes.GET("/plant/:id", controllers.CheckPlantStatus)
 		plantRoutes.POST("/api/plant/:id/harvest", controllers.HarvestPlant)
 		plantRoutes.GET("/api/plant/", controllers.GetPlants)
-		plantRoutes.POST("/api/plant/:id/fertilize", controllers.GetPlants)
+		plantRoutes.POST("/api/plant/:id/fertilize", controllers.FertilizePlant)
+	}
+}

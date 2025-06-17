@@ -5,10 +5,11 @@ import (
 )
 
 type Plant struct {
-	ID              string      `json:"id"`
-	Species         string      `json:"species"`
-	PlantingDate    time.Time   `json:"planting_date"`
-	LastWateredDate time.Time   `json:"last_watered_Date"`
-	Health          int         `json:"health"`
-	PlantStage      GrowthStage `json:"growth"`
+	ID               string      `json:"id"`
+	Species          string      `json:"species"`
+	PlantingDate     time.Time   `json:"planting_date"`
+	LastWateredDate  time.Time   `json:"last_watered_Date"`
+	Health           int         `json:"health"`
+	PlantStage       GrowthStage `json:"growth"`
+	LastFertilizedAt time.Time   `json:"last_ftilized_at"`
 }

@@ -84,8 +84,36 @@ func HarvestPlant(c *gin.Context) {
 }
 
 func GetPlants(c *gin.Context) {
+
+	var PlantList []models.Plant
+
+	PlantList = services.GetPlants()
+
+	log.Println("Se ha ejecutado GetPlants correctamente")
+	log.Printf("Lista de plantas: %+v\n", PlantList)
 	// aquí devuelves todas las plantas
-	c.JSON(http.StatusOK, gin.H{"plants": []models.Plant{}})
+	c.JSON(http.StatusOK, gin.H{"plants": PlantList})
+}
+
+func FertilizePlant(c *gin.Context) {
+
+	var id string
+
+	if err := c.ShouldBindJSON(&id); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	success := services.FertilizePlant(id)
+
+	if success {
+		log.Println("Se ha ejecutado correctamente")
+		log.Println("Plant fertilized successfully")
+		c.JSON(http.StatusOK, success)
+	} else {
+		log.Println("No se encontró la planta")
+		c.JSON(http.StatusNotFound, success)
+	}
 }
 
 // Crea las otras funciones (CreatePlant, GetPlantByID, etc.)
